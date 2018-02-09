@@ -11,6 +11,9 @@ class Images {
         $db = DB::getPdo();
         if (isset($_GET["tag"])) {
             $tags = Tags::findTags($_GET["tag"]);
+            if (count($tags) == 0) {
+                return array();
+            }
             $imagesIds = Array();
             foreach ($tags as $tag) {
                 $imagesIds[] = $tag["imageId"];

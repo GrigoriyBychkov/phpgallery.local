@@ -4,14 +4,19 @@ function addTagToImage($tag, $imageId) {
     try {
         $id = Tags::addTagToImage($tag, $imageId);
         if ($id) {
-            echo '{ "result": true, "id": ' . $id . ' }';
+            $response = Array();
+            $response['result'] = false;
+            $response['id']= $id;
+            echo json_encode($response);
         } else {
-            echo '{ "result": false }';
+            $response['result'] = false;
         }
     } catch(PDOException $e) {
-        echo '{ "result": false, "error": "' . $e->getMessage() . '" }';
-    }
-    return ;
+        $response = Array();
+        $response['result'] = false;
+        $response['error'] = $e->getMessage();
+
+        echo json_encode($response);    }
 }
 
 if (isset($_POST["tag"]) && isset($_POST["imageId"])) {

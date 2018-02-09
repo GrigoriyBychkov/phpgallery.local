@@ -3,10 +3,15 @@ require('models/db.php');
 function removeTag($id) {
     try {
         Tags::removeTag($id);
-        echo '{ "result": true }';//json encode
-        return;
+        $response = Array();
+        $response['result'] = true;
+        echo json_encode($response);
     } catch(PDOException $e) {
-        echo '{ "result": false, "error": ' . $e->getMessage() . ' }';
+        $response = Array();
+        $response['result'] = false;
+        $response['error'] = $e->getMessage();
+
+        echo json_encode($response);
     }
 }
 if (isset($_GET["remove"])) {

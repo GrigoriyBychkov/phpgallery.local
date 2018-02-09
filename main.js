@@ -8,7 +8,20 @@ $('.image').on('click', '.deleteTag', function(event) {
             $(event.currentTarget).parent('.tag-body').remove();
             alert('ok');
         } else {
-            alert('Error');
+             alert('Error');
+        }
+    });
+});
+
+$('.image').on('click', '.deleteImg', function(event) {
+    var imgId = $(event.currentTarget).attr('data-img-id');
+    $.get('delete.php?remove=' + imgId, function (response) {
+        var responseJson = JSON.parse(response);
+        if (responseJson.result === true) {
+            $(event.currentTarget).parent('.image').remove();
+            alert('ok');
+        } else {
+             alert('Error');
         }
     });
 });

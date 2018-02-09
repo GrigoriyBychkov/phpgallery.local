@@ -41,6 +41,7 @@
             <div>
                 <img src="images/img_<?= $img["Id"]?>.<?= $img["extension"]?>" style="width: 100px" alt="">
                 <a href="delete.php?remove=<?= $img["Id"]?>">remove</a>
+                <a role="button" class="btn btn-primary btn-sm deleteImg" data-img-id="<?=$img["Id"]?>">x</a>
             </div>
 
             <div id="image-tags-<?= $img["Id"]?>">

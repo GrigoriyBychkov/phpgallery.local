@@ -6,10 +6,16 @@ function removeImage($id) {
         Images::deleteImage($id);
         $filename = 'images/img_' . $id . '.' . $extension;
         unlink($filename);
-        echo '<script>window.location = "/"</script>';
-        return;
+        $response = Array();
+        $response['result'] = true;
+
+        echo json_encode($response);
     } catch (PDOException $e) {
-        echo $e->getMessage();
+        $response = Array();
+        $response['result'] = false;
+        $response['error'] = $e->getMessage();
+
+        echo json_encode($response);
     }
 }
 if (isset($_GET["remove"])) {

@@ -26,7 +26,6 @@ class Images {
             $db = DB::getPdo();
             $sql = "insert into `images` ( `extension`, `Name`) values ( '" . $extension . "', '" . $name . "')";
             $db->query($sql);
-            var_dump($sql);
         } catch(PDOException $e) {
             echo $e->getMessage();
         }
@@ -37,7 +36,6 @@ class Images {
         $sql = "select * from `test`.`images` where `Id`='" . $id . "' ";
         $stmt = $db->query($sql);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        var_dump($result["extension"]);
         return $result["extension"];
     }
     static function deleteImage($id) {

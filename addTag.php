@@ -1,21 +1,18 @@
 <?php
-
+require('models/db.php');
 function addTagToImage($tag, $imageId) {
     try {
-        $db = new PDO('mysql:host=localhost:3306;dbname=test', 'root', '');
-
-        $sql = "insert into `test`.`tags` ( `tag`, `imageId`) values ( '" . $tag . "', '" .  $imageId . "')";
-        $db->query($sql);
-        echo '<script>window.location = "/"</script>';
+        $id = Tags::addTagToImage($tag, $imageId);
+        if ($id) {
+            echo '{ "result": true, "id": ' . $id . ' }';
+        } else {
+            echo '{ "result": false }';
+        }
     } catch(PDOException $e) {
-        echo $e->getMessage();
+        echo '{ "result": false, "error": "' . $e->getMessage() . '" }';
     }
-
-    return $db->lastInsertId();
+    return ;
 }
-
 if (isset($_POST["tag"]) && isset($_POST["imageId"])) {
-    addTagToImage($_POST["tag"], $_POST["imageId"]);
-
+    Tags::addTagToImage($_POST["tag"], $_POST["imageId"]);
 }
-

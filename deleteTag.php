@@ -1,17 +1,14 @@
 <?php
-
+require('models/db.php');
 function removeTag($id) {
     try {
-        $db = new PDO('mysql:host=localhost:3306;dbname=test', 'root', '');
-        $sql = "delete from `test`.`tags` where `Id`='" . $id . "' ";
-        $db->query($sql);
-        echo '<script>window.location = "/PhpGallery/"</script>';
+        Tags::removeTag($id);
+        echo '{ "result": true }';
         return;
     } catch(PDOException $e) {
-        echo $e->getMessage();
+        echo '{ "result": false, "error": ' . $e->getMessage() . ' }';
     }
 }
-
 if (isset($_GET["remove"])) {
     removeTag($_GET["remove"]);
 }

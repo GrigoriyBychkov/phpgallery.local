@@ -1,27 +1,10 @@
 <pre>
 <?php
-
-
-function saveImageToDataBase($name, $extension) {
-    try {
-        $db = new PDO('mysql:host=localhost:3306;dbname=test', 'root', '');
-        $sql = "insert into `images` ( `extension`, `Name`) values ( '" . $extension . "', '" . $name . "')";
-        $db->query($sql);
-        var_dump($sql);
-    } catch(PDOException $e) {
-        echo $e->getMessage();
-    }
-
-    return $db->lastInsertId();
-}
-
-
+require('models/db.php');
 $target_dir = "images/";
 $uploadOk = 1;
-
 $fileName = basename($_FILES["fileToUpload"]["name"]);
 $imageFileType = strtolower(pathinfo($fileName,PATHINFO_EXTENSION));
-
 // Check if image file is a actual image or fake image
 if(isset($_POST["submit"])) {
     $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
@@ -33,30 +16,26 @@ if(isset($_POST["submit"])) {
         $uploadOk = 0;
     }
 }
-
 // Check file size
 if ($_FILES["fileToUpload"]["size"] > 5000000) {
     echo "Sorry, your file is too large.";
     $uploadOk = 0;
 }
-
 // Allow certain file formats
 if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
     && $imageFileType != "gif" ) {
     echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
     $uploadOk = 0;
 }
-
 // Check if $uploadOk is set to 0 by an error
 if ($uploadOk == 0) {
     echo "Sorry, your file was not uploaded.";
 // if everything is ok, try to upload file
 } else {
-    $newId = saveImageToDataBase($fileName, $imageFileType);
+    $newId = Images::saveImageToDataBase($fileName, $imageFileType);
     $target_file = $target_dir . "img_" . $newId . "." . $imageFileType;
-
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-        echo '<script>window.location = "/phpgallery.local/"</script>';
+        echo '<script>window.location = "/PhpGallery/"</script>';
         echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
     } else {
         echo "Sorry, there was an error uploading your file.";

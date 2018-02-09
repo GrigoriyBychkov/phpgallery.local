@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -6,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <title>PHP Gallery</title>
-
     <!-- Bootstrap core CSS -->
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -30,45 +28,44 @@
     <br>
     <h1>PHP Gallery</h1>
 
-    <form action="/" method="get">
+    <form action="/PhpGallery/" method="get">
         Search:
         <input type="text" name="tag">
         <input type="submit" name="submit">
     </form>
     <hr>
-<?php include("models/db.php"); ?>
+    <?php include("models/db.php"); ?>
 
-<?php foreach (getImages() as $img) { ?>
-    <div>
-        <img src="images/img_<?= $img["Id"]?>.<?= $img["extension"]?>" style="width: 100px" alt="">
-        <a href="delete.php?remove=<?= $img["Id"]?>">remove</a>
-    </div>
+    <?php foreach (Images::getImages() as $img) { ?>
+        <div class="image">
+            <div>
+                <img src="images/img_<?= $img["Id"]?>.<?= $img["extension"]?>" style="width: 100px" alt="">
+                <a href="delete.php?remove=<?= $img["Id"]?>">remove</a>
+            </div>
 
-    <?php foreach (getImageTagsByImageId($img["Id"]) as $tag) { ?>
-        <span>
-            [<?= $tag["tag"]?> <a href="deleteTag.php?remove=<?=$tag["Id"]?>">x</a>]
+            <div id="image-tags-<?= $img["Id"]?>">
+                <?php foreach (Tags::getImageTagsByImageId($img["Id"]) as $tag) { ?>
+                    <span class="tag-body">
+                    [<?= $tag["tag"]?> <span class="deleteTag" data-tag-id="<?=$tag["Id"]?>">x</span>]
+                </span>
+                <?php } ?>
+            </div>
+
+            <span id="tagTemplate" class="tag-body" style="display: none">
+            [<span class="tagText"></span> <span class="deleteTag">x</span>]
         </span>
-    <?php } ?>
-    <?php foreach (getImageDescByImageId($img["Id"]) as $desc) { ?>
-        <span>
-            [<?= $desc["desc"]?> <a href="deleteTag.php?remove=<?=$desc["Id"]?>">x</a>]
-        </span>
-    <?php } ?>
 
-    <form action="addTag.php" method="post">
-        Add tag:
-        <input type="text" name="tag">
-        <input type="hidden" name="imageId" value="<?= $img["Id"]?>">
-        <input type="submit" value="Add" name="submit">
-    </form>
-    <hr>
-    <form action="/addDescription.php" method="post">
-        Add description:
-        <input type="text" name="desc">
-        <input type="hidden" name="imageId" value="<?= $img["Id"]?>">
-        <input type="submit" value="Add" name="submit">
-    </form>
-<?php } ?>
+            <div class="addTagForm">
+                Add tag:
+                <input type="text" class="addTagText">
+                <input type="button"
+                       class="addTagButton"
+                       data-image-id="<?= $img["Id"]?>"
+                       value="Add">
+            </div>
+            <hr>
+        </div>
+    <?php } ?>
 
     <form action="upload.php" method="post" enctype="multipart/form-data">
         Select image to upload:
@@ -79,6 +76,7 @@
 </main>
 
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="main.js"></script>
 </body>
 </html>

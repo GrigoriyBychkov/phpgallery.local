@@ -4,8 +4,10 @@ class Images {
         $db = DB::getPdo();
         $idsString = implode(', ', $ids);
         $query = "SELECT * FROM images WHERE Id in (" . $idsString . ")";
-        $stmt = $db->query($query);
-        return $stmt->fetchAll();
+        $sth = $db->prepare($query);
+        $sth->execute();
+
+        return $sth->fetchAll();
     }
     static function getImages() {
         $db = DB::getPdo();
@@ -25,24 +27,27 @@ class Images {
         return $stmt->fetchAll();
     }
     static function saveImageToDataBase($name, $extension) {
-        try {
-            $db = DB::getPdo();
-            $sql = "insert into `images` ( `extension`, `Name`) values ( '" . $extension . "', '" . $name . "')";
-            $db->query($sql);
-        } catch(PDOException $e) {
-            echo $e->getMessage();
-        }
+        $db = DB::getPdo();
+        $sth = $db->prepare("insert into `images` ( `extension`, `Name`) values ( :extension, :name)");
+        $sth->bindValue(':extension', $extension ,PDO::PARAM_STR);
+        $sth->bindValue(':name', $name ,PDO::PARAM_INT);
+        $sth->execute();
+
         return $db->lastInsertId();
     }
     static function getImageExtensionById($id) {
         $db = DB::getPdo();
-        $sql = "select * from `test`.`images` where `Id`='" . $id . "' ";
-        $stmt = $db->query($sql);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result["extension"];
+        $sth = $db->prepare("select * from `test`.`images` where `Id`= :id");
+        $sth->bindValue(':id', $id, PDO::PARAM_INT);
+        $sth->execute();
+
+        $result = $sth->fetch(PDO::FETCH_ASSOC);
+        return $result['extension'];
+
     }
     static function deleteImage($id) {
         $db = DB::getPdo();
-        $sql = "delete from `test`.`images` where `Id`='" . $id . "' ";
-        $db->query($sql);
+        $sth = $db->prepare("delete from `test`.`images` where `Id`= :id");
+        $sth->bindValue(':id', $id, PDO::PARAM_INT);
+        return $sth->execute();
     }}

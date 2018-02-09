@@ -30,7 +30,7 @@
 
     <form action="/" method="get">
         Search:
-        <input type="text" name="tag">
+        <input type="text" name="tag" value="<?= $_GET["tag"]?>">
         <input type="submit" name="submit">
     </form>
     <hr>
@@ -40,21 +40,20 @@
         <div class="image">
             <div>
                 <img src="images/img_<?= $img["Id"]?>.<?= $img["extension"]?>" style="width: 100px" alt="">
-                <a href="delete.php?remove=<?= $img["Id"]?>">remove</a>
                 <a role="button" class="btn btn-primary btn-sm deleteImg" data-img-id="<?=$img["Id"]?>">x</a>
             </div>
 
             <div id="image-tags-<?= $img["Id"]?>">
                 <?php foreach (Tags::getImageTagsByImageId($img["Id"]) as $tag) { ?>
-                    <span class="tag-body">
-                    [<?= $tag["tag"]?> <span class="deleteTag" data-tag-id="<?=$tag["Id"]?>">x</span>]
-                </span>
+                    <span class="tag-body badge badge-info">
+                        <?= $tag["tag"]?> <span class="deleteTag" data-tag-id="<?=$tag["Id"]?>">x</span>
+                    </span>
                 <?php } ?>
             </div>
 
-            <span id="tagTemplate" class="tag-body" style="display: none">
-            [<span class="tagText"></span> <span class="deleteTag">x</span>]
-        </span>
+            <span id="tagTemplate" class="tag-body badge badge-info" style="display: none">
+                <span class="tagText"></span> <span class="deleteTag">x</span>
+            </span>
 
             <div class="addTagForm">
                 Add tag:

@@ -4,6 +4,7 @@ function removeImage($id) {
     try {
         $extension = Images::getImageExtensionById($id);
         Images::deleteImage($id);
+        Tags::deleteTagsByImageId($id);
         $filename = 'images/img_' . $id . '.' . $extension;
         unlink($filename);
         $response = Array();

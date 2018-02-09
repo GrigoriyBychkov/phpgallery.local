@@ -5,7 +5,7 @@ function addTagToImage($tag, $imageId) {
         $id = Tags::addTagToImage($tag, $imageId);
         if ($id) {
             $response = Array();
-            $response['result'] = false;
+            $response['result'] = true;
             $response['id']= $id;
             echo json_encode($response);
         } else {

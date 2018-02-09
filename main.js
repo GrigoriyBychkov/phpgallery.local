@@ -1,14 +1,16 @@
 console.log('main init');
 
 $('.image').on('click', '.deleteTag', function(event) {
+    var prompt = confirm('Are you sure?');
+    if (!prompt) return;
+
     var tagId = $(event.currentTarget).attr('data-tag-id');
     $.get('deleteTag.php?remove=' + tagId, function (response) {
         var responseJson = JSON.parse(response);
         if (responseJson.result === true) {
-            $(event.currentTarget).parent('.tag-body').remove();
-            alert('ok');
+            $(event.currentTarget).parents('.tag-body').remove();
         } else {
-             alert('Error');
+            alert('Error');
         }
     });
 });
@@ -18,7 +20,9 @@ $('.image').on('click', '.deleteImg', function(event) {
     $.get('delete.php?remove=' + imgId, function (response) {
         var responseJson = JSON.parse(response);
         if (responseJson.result === true) {
-            $(event.currentTarget).parent('.image').remove();
+            console.log($(event.currentTarget));
+            console.log($(event.currentTarget).parents('.image'));
+            $(event.currentTarget).parents('.image').remove();
             alert('ok');
         } else {
              alert('Error');
@@ -28,7 +32,7 @@ $('.image').on('click', '.deleteImg', function(event) {
 
 $('.image').on('click', '.addTagButton', function(event) {
     var imageId = $(event.currentTarget).attr('data-image-id');
-    var addTagForm = $(event.currentTarget).parent('.addTagForm');
+    var addTagForm = $(event.currentTarget).parents('.addTagForm');
     var tagText = $(addTagForm).find('.addTagText').val();
 
     $.post( "addTag.php", { tag: tagText, imageId: imageId }, function( response ) {

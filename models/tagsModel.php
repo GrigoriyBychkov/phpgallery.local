@@ -2,14 +2,15 @@
 class Tags {
     static function findTags($tag) {
         $db = DB::getPdo();
-        $query = "SELECT * FROM tags WHERE tag = '" . $tag . "'";
-        $stmt = $db->query($query);
-        return $stmt->fetchAll();
+        $sth = $db->prepare("SELECT * FROM tags WHERE tag = :tag ");
+        $sth->bindValue(':tag', $tag, PDO::PARAM_STR);
+        $sth->execute();
+        return $sth->fetchAll();
     }
 
     static function removeTag($id) {
         $db = DB::getPdo();
-        $sth = $db->prepare("delete from `test`.`tags` where `Id`= :tagId ");
+        $sth = $db->prepare("delete from `test`.`tags` where `id` = :tagId");
         $sth->bindValue(':tagId', $id, PDO::PARAM_INT);
 
         return $sth->execute();
@@ -17,9 +18,11 @@ class Tags {
 
     static function getImageTagsByImageId($id) {
         $db = DB::getPdo();
-        $stmt = $db->query('select * from `test`.`tags` where imageId = ' . $id);
+        $sth = $db->prepare("select * from `test`.`tags` where imageId = :imageId");
+        $sth->bindValue(':imageId', $id, PDO::PARAM_INT);
+        $sth->execute();
 
-        return $stmt->fetchAll();
+        return $sth->fetchAll();
     }
 
     static function addTagToImage($tag, $imageId) {

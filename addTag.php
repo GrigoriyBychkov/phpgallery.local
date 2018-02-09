@@ -13,6 +13,7 @@ function addTagToImage($tag, $imageId) {
     }
     return ;
 }
+
 if (isset($_POST["tag"]) && isset($_POST["imageId"])) {
-    Tags::addTagToImage($_POST["tag"], $_POST["imageId"]);
+    addTagToImage($_POST["tag"], $_POST["imageId"]);
 }

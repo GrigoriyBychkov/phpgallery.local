@@ -35,7 +35,7 @@ if ($uploadOk == 0) {
     $newId = Images::saveImageToDataBase($fileName, $imageFileType);
     $target_file = $target_dir . "img_" . $newId . "." . $imageFileType;
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-        echo '<script>window.location = "/PhpGallery/"</script>';
+        echo '<script>window.location = "/"</script>';
         echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
     } else {
         echo "Sorry, there was an error uploading your file.";

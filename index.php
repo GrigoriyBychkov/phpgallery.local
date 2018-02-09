@@ -28,7 +28,7 @@
     <br>
     <h1>PHP Gallery</h1>
 
-    <form action="/PhpGallery/" method="get">
+    <form action="/" method="get">
         Search:
         <input type="text" name="tag">
         <input type="submit" name="submit">

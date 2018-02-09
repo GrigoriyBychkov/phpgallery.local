@@ -6,7 +6,7 @@ function removeImage($id) {
         Images::deleteImage($id);
         $filename = 'images/img_' . $id . '.' . $extension;
         unlink($filename);
-        echo '<script>window.location = "/PhpGallery/"</script>';
+        echo '<script>window.location = "/"</script>';
         return;
     } catch (PDOException $e) {
         echo $e->getMessage();

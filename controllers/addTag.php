@@ -1,5 +1,4 @@
 <?php
-require('models/db.php');
 function addTagToImage($tag, $imageId) {
     try {
         $id = Tags::addTagToImage($tag, $imageId);
@@ -7,7 +6,7 @@ function addTagToImage($tag, $imageId) {
             $response = Array();
             $response['result'] = true;
             $response['id']= $id;
-            echo json_encode($response);
+            return json_encode($response);
         } else {
             $response['result'] = false;
         }
@@ -16,9 +15,12 @@ function addTagToImage($tag, $imageId) {
         $response['result'] = false;
         $response['error'] = $e->getMessage();
 
-        echo json_encode($response);    }
+        return json_encode($response);    }
 }
 
-if (isset($_POST["tag"]) && isset($_POST["imageId"])) {
-    addTagToImage($_POST["tag"], $_POST["imageId"]);
+function addTagController() {
+    if (isset($_POST["tag"]) && isset($_POST["imageId"])) {
+        return addTagToImage($_POST["tag"], $_POST["imageId"]);
+    }
 }
+

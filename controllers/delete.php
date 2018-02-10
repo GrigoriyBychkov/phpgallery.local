@@ -1,5 +1,4 @@
 <?php
-require('models/db.php');
 function removeImage($id) {
     try {
         $extension = Images::getImageExtensionById($id);
@@ -19,6 +18,9 @@ function removeImage($id) {
         echo json_encode($response);
     }
 }
-if (isset($_GET["remove"])) {
-    removeImage($_GET["remove"]);
+function deleteController()
+{
+    if (isset($_GET["remove"])) {
+        removeImage($_GET["remove"]);
+    }
 }

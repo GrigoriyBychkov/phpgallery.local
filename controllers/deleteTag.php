@@ -1,5 +1,4 @@
 <?php
-require('models/db.php');
 function removeTag($id) {
     try {
         Tags::removeTag($id);
@@ -14,6 +13,9 @@ function removeTag($id) {
         echo json_encode($response);
     }
 }
-if (isset($_GET["remove"])) {
-    removeTag($_GET["remove"]);
+function deleteTagController()
+{
+    if (isset($_GET["remove"])) {
+        removeTag($_GET["remove"]);
+    }
 }

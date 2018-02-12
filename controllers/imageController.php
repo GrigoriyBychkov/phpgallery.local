@@ -1,14 +1,29 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: User
- * Date: 10.02.2018
- * Time: 19:26
- */
 
 class ImageController
 {
-    function uploadAction()
+    static function indexAction(){
+        $view = new View('views/index.phtml');
+        $data = Array();
+        $data['content'] = self::getImages();
+        return $view->render($data);
+    }
+
+    static function getImagesAction(){
+        $view = new View('views/images.phtml');
+        $data = Array();
+        $data['images'] = Images::getImages();
+        return $view->render($data);
+    }
+
+    static function getImages(){
+        $view = new View('views/images.phtml');
+        $data = Array();
+        $data['images'] = Images::getImages();
+        return $view->render($data);
+    }
+
+    static function uploadAction()
     {
         $target_dir = "images/";
         $uploadOk = 1;
@@ -49,6 +64,29 @@ class ImageController
                 echo "The file " . basename($_FILES["fileToUpload"]["name"]) . " has been uploaded.";
             } else {
                 echo "Sorry, there was an error uploading your file.";
+            }
+        }
+    }
+
+    static function deleteAction() {
+        if (isset($_GET["remove"])) {
+            $id = $_GET["remove"];
+            try {
+                $extension = Images::getImageExtensionById($id);
+                Images::deleteImage($id);
+                Tags::deleteTagsByImageId($id);
+                $filename = 'images/img_' . $id . '.' . $extension;
+                unlink($filename);
+                $response = Array();
+                $response['result'] = true;
+
+                echo json_encode($response);
+            } catch (PDOException $e) {
+                $response = Array();
+                $response['result'] = false;
+                $response['error'] = $e->getMessage();
+
+                echo json_encode($response);
             }
         }
     }

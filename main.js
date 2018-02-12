@@ -1,51 +1,52 @@
 console.log('main init');
 
-$('.image').on('click', '.deleteTag', function(event) {
+function reloadImages() {
+    $.get('getImages', function (response) {
+        $('#content').html(response);
+    });
+}
+
+$('#refresh').on('click', function () {
+    reloadImages();
+});
+
+$('#content').on('click', '.deleteTag', function(event) {
     var prompt = confirm('Are you sure?');
     if (!prompt) return;
 
     var tagId = $(event.currentTarget).attr('data-tag-id');
-    $.get('deleteTag.php?remove=' + tagId, function (response) {
+    $.get('tag_delete?remove=' + tagId, function (response) {
         var responseJson = JSON.parse(response);
         if (responseJson.result === true) {
-            $(event.currentTarget).parents('.tag-body').remove();
+            reloadImages();
         } else {
             alert('Error');
         }
     });
 });
 
-$('.image').on('click', '.deleteImg', function(event) {
+$('#content').on('click', '.deleteImg', function(event) {
     var imgId = $(event.currentTarget).attr('data-img-id');
-    $.get('delete.php?remove=' + imgId, function (response) {
+    $.get('image_delete?remove=' + imgId, function (response) {
         var responseJson = JSON.parse(response);
         if (responseJson.result === true) {
-            console.log($(event.currentTarget));
-            console.log($(event.currentTarget).parents('.image'));
-            $(event.currentTarget).parents('.image').remove();
             alert('ok');
+            reloadImages();
         } else {
-             alert('Error');
+            alert('Error');
         }
     });
 });
 
-$('.image').on('click', '.addTagButton', function(event) {
+$('#content').on('click', '.addTagButton', function(event) {
     var imageId = $(event.currentTarget).attr('data-image-id');
     var addTagForm = $(event.currentTarget).parents('.addTagForm');
     var tagText = $(addTagForm).find('.addTagText').val();
-
-    $.post( "addTag.php", { tag: tagText, imageId: imageId }, function( response ) {
-        console.log('response', response);
+    $.post( "tag_add", { tag: tagText, imageId: imageId }, function( response ) {
         var responseJson = JSON.parse(response);
         if (responseJson.result === true) {
-            $(event.currentTarget).parent('.tag-body').remove();
             alert('ok');
-            var tpl = $('#tagTemplate').clone();
-            tpl.find('.tagText').text(tagText);
-            tpl.find('.deleteTag').attr('data-image-id', imageId);
-            tpl.show();
-            tpl.appendTo('#image-tags-' + imageId);
+            reloadImages();
         } else {
             alert('Error');
         }

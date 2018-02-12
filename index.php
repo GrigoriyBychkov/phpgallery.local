@@ -1,11 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: User
- * Date: 09.02.2018
- * Time: 21:23
- */
-require('controllers/addTag.php');
+
+
 //["REDIRECT_URL"]=> "/asdf/asdf"
 //["REDIRECT_QUERY_STRING"]=> "fff=gggg&fgh=fff"
 //["REQUEST_METHOD"]=> "GET"
@@ -24,20 +19,25 @@ $paths = explode("/", $_SERVER['REDIRECT_URL']);
 require('models/db.php');
 require('controllers/tagController.php');
 require('controllers/imageController.php');
+require('views/indexView.php');
 
-
-if ($paths[1] == 'addTag.php') {
+if ($paths[1] == 'tag_add') {
     echo TagController::addTagAction();
-} else if ($paths[1] == 'delete.php') {
-    echo deleteController();
-} else if ($paths[1]=='deleteTag.php'){
+
+} else if ($paths[1] == 'image_delete') {
+    echo ImageController::deleteAction();
+
+} else if ($paths[1]=='tag_delete'){
     echo TagController::deleteTagAction();
+
 } else if ($paths[1]=='upload'){
-    echo uploadAction();
-} else if ($paths[1]) {
-    require('controllers/' . $paths[1]);
+    echo ImageController::uploadAction();
+
+} else if ($paths[1]=='getImages'){
+    echo ImageController::getImagesAction();
+
 } else {
-    require('views/index.php');
+    echo ImageController::indexAction();
 }
 
 

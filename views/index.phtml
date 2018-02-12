@@ -35,36 +35,9 @@
     </form>
     <hr>
 
-    <?php foreach (Images::getImages() as $img) { ?>
-        <div class="image">
-            <div>
-                <img src="images/img_<?= $img["Id"]?>.<?= $img["extension"]?>" style="width: 100px" alt="">
-                <a role="button" class="btn btn-primary btn-sm deleteImg" data-img-id="<?=$img["Id"]?>">x</a>
-            </div>
-
-            <div id="image-tags-<?= $img["Id"]?>">
-                <?php foreach (Tags::getImageTagsByImageId($img["Id"]) as $tag) { ?>
-                    <span class="tag-body badge badge-info">
-                        <?= $tag["tag"]?> <span class="deleteTag" data-tag-id="<?=$tag["Id"]?>">x</span>
-                    </span>
-                <?php } ?>
-            </div>
-
-            <span id="tagTemplate" class="tag-body badge badge-info" style="display: none">
-                <span class="tagText"></span> <span class="deleteTag">x</span>
-            </span>
-
-            <div class="addTagForm">
-                Add tag:
-                <input type="text" class="addTagText">
-                <input type="button"
-                       class="addTagButton"
-                       data-image-id="<?= $img["Id"]?>"
-                       value="Add">
-            </div>
-            <hr>
-        </div>
-    <?php } ?>
+    <div id="content">
+        <?= $content ?>
+    </div>
 
     <form action="/upload" method="post" enctype="multipart/form-data">
         Select image to upload:
@@ -72,6 +45,8 @@
         <input type="submit" value="Upload" name="submit">
     </form>
     <hr>
+
+    <button class="btn btn-primary" id="refresh">refresh</button>
 </main>
 
 <!-- Placed at the end of the document so the pages load faster -->

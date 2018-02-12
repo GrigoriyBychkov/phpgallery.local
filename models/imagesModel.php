@@ -9,7 +9,7 @@ class Images {
 
         return $sth->fetchAll();
     }
-    static function getImages() {
+    static function getImages($offset) {
         $db = DB::getPdo();
         if (isset($_GET["tag"])) {
             $tags = Tags::findTags($_GET["tag"]);
@@ -22,9 +22,14 @@ class Images {
             }
             return Images::getImagesByIds($imagesIds);
         } else {
-            $stmt = $db->query('SELECT * FROM images');
+            $query = "SELECT * FROM `images` ORDER BY `images`.`Id` ASC LIMIT 5 offset " . $offset;
+            $sth = $db->prepare($query);
+
+            $sth->bindValue(':offset', $offset ,PDO::PARAM_INT);
+
+            $stmt = $db->query($query);
+            return $stmt->fetchAll();
         }
-        return $stmt->fetchAll();
     }
     static function saveImageToDataBase($name, $extension) {
         $db = DB::getPdo();
@@ -50,4 +55,13 @@ class Images {
         $sth = $db->prepare("delete from `test`.`images` where `Id`= :id");
         $sth->bindValue(':id', $id, PDO::PARAM_INT);
         return $sth->execute();
-    }}
+    }
+
+    static function getImagesCount() {
+        $db = DB::getPdo();
+        $sth = $db->prepare("SELECT count(Id) as total FROM `images`");
+        $sth->execute();
+        $result = $sth->fetchAll();
+        return $result[0]['total'];
+    }
+}

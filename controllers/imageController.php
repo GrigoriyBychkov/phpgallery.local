@@ -5,21 +5,20 @@ class ImageController
     static function indexAction(){
         $view = new View('views/index.phtml');
         $data = Array();
-        $data['content'] = self::getImages();
+        $data['content'] = self::getImages(0);
+
         return $view->render($data);
     }
 
     static function getImagesAction(){
-        $view = new View('views/images.phtml');
-        $data = Array();
-        $data['images'] = Images::getImages();
-        return $view->render($data);
+        return self::getImages();
     }
 
     static function getImages(){
         $view = new View('views/images.phtml');
         $data = Array();
-        $data['images'] = Images::getImages();
+        $data['images'] = Images::getImages(0);
+        $data['count'] = Images::getImagesCount();
         return $view->render($data);
     }
 

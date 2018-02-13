@@ -3,11 +3,11 @@
 class DB {
     public static $host = 'localhost:3306';
 
-    public static $dbname = 'cl185359_mybd';
+    public static $dbname = 'test';
 
-    public static $username = 'cl185359_bd';
+    public static $username = 'root';
 
-    public static $password = 'cl185359_bd_pwd';
+    public static $password = '';
 
     static function getPdo() {
         $conn = new PDO('mysql:host=' . self::$host . ';dbname=' . self::$dbname, self::$username, self::$password);

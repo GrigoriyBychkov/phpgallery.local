@@ -47,7 +47,7 @@ class Images {
     }
     static function getImageExtensionById($id) {
         $db = DB::getPdo();
-        $sth = $db->prepare("select * from `test`.`images` where `Id`= :id");
+        $sth = $db->prepare("select * from `images` where `Id`= :id");
         $sth->bindValue(':id', $id, PDO::PARAM_INT);
         $sth->execute();
 
@@ -57,7 +57,7 @@ class Images {
     }
     static function deleteImage($id) {
         $db = DB::getPdo();
-        $sth = $db->prepare("delete from `test`.`images` where `Id`= :id");
+        $sth = $db->prepare("delete from `images` where `Id`= :id");
         $sth->bindValue(':id', $id, PDO::PARAM_INT);
         return $sth->execute();
     }

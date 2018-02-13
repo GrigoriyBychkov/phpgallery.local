@@ -24,13 +24,14 @@ class ImageController
             $shift = $_GET["page"] * 6;
         }
         $data['images'] = Images::getImages($shift, $page);
-        $data['currentTag'] = $_GET["tag"];
 
         if (isset($_GET["tag"])) {
             $tags = Tags::findTags($_GET["tag"]);
             $data['count'] = count($tags);
+            $data['currentTag'] = $_GET["tag"];
         } else {
             $data['count'] = Images::getImagesCount();
+            $data['currentTag'] = '';
         }
 
         $data['current'] = $page;

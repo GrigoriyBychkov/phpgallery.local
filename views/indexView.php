@@ -36,7 +36,7 @@ class View {
         extract($data);
 
         ob_start();
-        include( DIRECTORY_SEPARATOR . $this->template);
+        include( $this->template);
         $content = ob_get_contents();
         ob_end_clean();
         return $content;

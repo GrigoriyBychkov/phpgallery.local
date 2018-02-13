@@ -7,15 +7,20 @@ class Images {
         $sth = $db->prepare($query);
         $sth->execute();
 
-        return $sth->fetchAll();
+        return $sth->fetchAll(PDO::FETCH_ASSOC);
     }
-    static function getImages($offset) {
+    static function getImages($offset, $page) {
         $db = DB::getPdo();
         if (isset($_GET["tag"])) {
             $tags = Tags::findTags($_GET["tag"]);
+
+            $tags = array_chunk($tags, 5);
+
+            $tags = $tags[$page];
             if (count($tags) == 0) {
                 return array();
             }
+
             $imagesIds = Array();
             foreach ($tags as $tag) {
                 $imagesIds[] = $tag["imageId"];
@@ -28,7 +33,7 @@ class Images {
             $sth->bindValue(':offset', $offset ,PDO::PARAM_INT);
 
             $stmt = $db->query($query);
-            return $stmt->fetchAll();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
     }
     static function saveImageToDataBase($name, $extension) {

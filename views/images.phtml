@@ -25,3 +25,28 @@
             <hr>
         </div>
     <?php } ?>
+
+<?php $pages = ceil($count / 5);?>
+<script>
+    window.currentImagesPage = <?= $current ?>;
+    window.currentTag = '<?= $currentTag ?>';
+</script>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <?php if ($current > 0) { ?>
+            <li class="page-item"><a class="page-link" data-page="<?= $current - 1 ?>">Previous</a></li>
+        <?php } ?>
+
+        <?php for ($x = 0; $x < $pages; $x++) { ?>
+            <li class="page-item <?= ($x == $current) ? "active" : "" ?>">
+                <a class="page-link" data-page="<?= $x ?>"><?= $x + 1 ?>
+                </a>
+            </li>
+        <?php } ?>
+
+        <?php if ($current + 1 < $pages) { ?>
+            <li class="page-item"><a class="page-link" data-page="<?= $current + 1 ?>">Next</a></li>
+        <?php } ?>
+    </ul>
+</nav>

@@ -1,13 +1,20 @@
 console.log('main init');
 
-function reloadImages() {
-    $.get('getImages', function (response) {
+function reloadImages(page) {
+    var page = page || window.currentImagesPage;
+    var tag = window.currentTag || undefined;
+    $.get('getImages', {page: page, tag: tag}, function (response) {
         $('#content').html(response);
     });
 }
 
 $('#refresh').on('click', function () {
     reloadImages();
+});
+
+$('#content').on('click', '.page-link', function (event) {
+    var page = $(event.currentTarget).attr('data-page');
+    reloadImages(page);
 });
 
 $('#content').on('click', '.deleteTag', function(event) {

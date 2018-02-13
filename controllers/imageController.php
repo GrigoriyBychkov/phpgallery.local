@@ -5,7 +5,7 @@ class ImageController
     static function indexAction(){
         $view = new View('views/index.phtml');
         $data = Array();
-        $data['content'] = self::getImages(0);
+        $data['content'] = self::getImages();
 
         return $view->render($data);
     }
@@ -17,8 +17,37 @@ class ImageController
     static function getImages(){
         $view = new View('views/images.phtml');
         $data = Array();
-        $data['images'] = Images::getImages(0);
-        $data['count'] = Images::getImagesCount();
+        $shift = 0;
+        $page = 0;
+        if (isset($_GET["page"])) {
+            $page = $_GET["page"];
+            $shift = $_GET["page"] * 5;
+        }
+        $data['images'] = Images::getImages($shift, $page);
+        $data['currentTag'] = $_GET["tag"];
+
+        if (isset($_GET["tag"])) {
+            $tags = Tags::findTags($_GET["tag"]);
+            $data['count'] = count($tags);
+        } else {
+            $data['count'] = Images::getImagesCount();
+        }
+
+        $data['current'] = $page;
+
+        if (isset($_GET["format"]) && $_GET["format"] === 'json') {
+            $images = Array();
+            foreach ($data['images'] as $img) {
+                $img['tags'] = Tags::getImageTagsByImageId($img['Id']);
+                $images[] = $img;
+            }
+            $response = Array();
+            $response['result'] = true;
+            $response['total'] = 0 + $data['count'];
+            $response['values'] = $images;
+
+            return json_encode($response);
+        }
         return $view->render($data);
     }
 

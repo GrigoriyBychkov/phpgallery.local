@@ -6,7 +6,7 @@ class Tags {
         $sth->bindValue(':tag', $tag, PDO::PARAM_STR);
         $sth->execute();
 
-        return $sth->fetchAll();
+        return $sth->fetchAll(PDO::FETCH_ASSOC);
     }
 
     static function removeTag($id) {
@@ -30,7 +30,7 @@ class Tags {
         $sth->bindValue(':imageId', $id, PDO::PARAM_INT);
         $sth->execute();
 
-        return $sth->fetchAll();
+        return $sth->fetchAll(PDO::FETCH_ASSOC);
     }
 
     static function addTagToImage($tag, $imageId) {

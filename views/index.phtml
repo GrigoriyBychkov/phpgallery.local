@@ -7,6 +7,7 @@
     <title>PHP Gallery</title>
     <!-- Bootstrap core CSS -->
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="main.css" rel="stylesheet">
 </head>
 
 <body>
@@ -29,9 +30,12 @@
     <h1>PHP Gallery</h1>
 
     <form action="/" method="get">
-        Search:
-        <input type="text" name="tag" value="<?= $_GET["tag"]?>">
-        <input type="submit" name="submit">
+    <div class="input-group mb-3">
+        <input type="text" name="tag" value="<?= $_GET["tag"]?>" class="form-control" placeholder="tag" aria-label="Recipient's username" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-outline-secondary">Search</button>
+        </div>
+    </div>
     </form>
     <hr>
 
@@ -45,8 +49,6 @@
         <input type="submit" value="Upload" name="submit">
     </form>
     <hr>
-
-    <button class="btn btn-primary" id="refresh">refresh</button>
 </main>
 
 <!-- Placed at the end of the document so the pages load faster -->

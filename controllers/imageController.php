@@ -21,7 +21,7 @@ class ImageController
         $page = 0;
         if (isset($_GET["page"])) {
             $page = $_GET["page"];
-            $shift = $_GET["page"] * 5;
+            $shift = $_GET["page"] * 6;
         }
         $data['images'] = Images::getImages($shift, $page);
         $data['currentTag'] = $_GET["tag"];

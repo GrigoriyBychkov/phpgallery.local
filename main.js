@@ -37,7 +37,6 @@ $('#content').on('click', '.deleteImg', function(event) {
     $.get('image_delete?remove=' + imgId, function (response) {
         var responseJson = JSON.parse(response);
         if (responseJson.result === true) {
-            alert('ok');
             reloadImages();
         } else {
             alert('Error');
@@ -52,7 +51,6 @@ $('#content').on('click', '.addTagButton', function(event) {
     $.post( "tag_add", { tag: tagText, imageId: imageId }, function( response ) {
         var responseJson = JSON.parse(response);
         if (responseJson.result === true) {
-            alert('ok');
             reloadImages();
         } else {
             alert('Error');

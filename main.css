@@ -1,0 +1,26 @@
+#images-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.image {
+    position: relative;
+    flex: 0 0 200px;
+    padding: 5px;
+}
+
+.image img {
+    width: 200px;
+    height: 200px;
+}
+
+.image .deleteImg {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+.image .addTagForm {
+    margin: 4px 0 0 0 !important;
+}

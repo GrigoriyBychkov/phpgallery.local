@@ -14,7 +14,7 @@ class Images {
         if (isset($_GET["tag"])) {
             $tags = Tags::findTags($_GET["tag"]);
 
-            $tags = array_chunk($tags, 5);
+            $tags = array_chunk($tags, 6);
 
             $tags = $tags[$page];
             if (count($tags) == 0) {
@@ -27,7 +27,7 @@ class Images {
             }
             return Images::getImagesByIds($imagesIds);
         } else {
-            $query = "SELECT * FROM `images` ORDER BY `images`.`Id` ASC LIMIT 5 offset " . $offset;
+            $query = "SELECT * FROM `images` ORDER BY `images`.`Id` ASC LIMIT 6 offset " . $offset;
             $sth = $db->prepare($query);
 
             $sth->bindValue(':offset', $offset ,PDO::PARAM_INT);

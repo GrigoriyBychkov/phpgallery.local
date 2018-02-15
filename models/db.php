@@ -1,16 +1,15 @@
 <?php
 
+require('config.php');
+
 class DB {
-    public static $host = 'localhost:3306';
-
-    public static $dbname = 'test';
-
-    public static $username = 'root';
-
-    public static $password = '';
-
     static function getPdo() {
-        $conn = new PDO('mysql:host=' . self::$host . ';dbname=' . self::$dbname, self::$username, self::$password);
+        $host = Config::$host;
+        $dbname = Config::$dbname;
+        $username = Config::$username;
+        $password = Config::$password;
+
+        $conn = new PDO('mysql:host=' . $host . ';dbname=' . $dbname, $username, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $conn;
     }

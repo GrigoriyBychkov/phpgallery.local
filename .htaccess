@@ -31,6 +31,8 @@ RewriteRule ^models(.*)$ /index.php [L,R=301]
 
     DirectoryIndex index.php
 
+# php_value display_errors on
+
 <IfModule mod_php5.c>
 
 ############################################

@@ -44,7 +44,6 @@ class Tags {
         return $db->lastInsertId();
     }
 
-    //TODO: это именно та функция select count(Id) as total from 'tags' where tag = :tag;
     static function getTagsCountByImageId($tag, $imageId) {
         $db = DB::getPdo();
         $sth = $db->prepare("SELECT count(Id) as total FROM `tags` WHERE tag=:tag and imageId=:imageId LIMIT 1");

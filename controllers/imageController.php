@@ -26,9 +26,12 @@ class ImageController
         $data['images'] = Images::getImages($shift, $page);
 
         if (isset($_GET["tag"])) {
-            $tags = Tags::findTags($_GET["tag"]);
-            $data['count'] = count($tags);
-            $data['currentTag'] = $_GET["tag"];
+            $trim = trim($_GET["tag"]);
+            if (strlen($trim) > 0) {
+                $tags = Tags::findTags($_GET["tag"]);
+                $data['count'] = count($tags);
+                $data['currentTag'] = $_GET["tag"];
+            }
         } else {
             $data['count'] = Images::getImagesCount();
             $data['currentTag'] = '';

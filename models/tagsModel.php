@@ -16,6 +16,7 @@ class Tags {
 
         return $sth->execute();
     }
+
     static function deleteTagsByImageId($imageId) {
         $db = DB::getPdo();
         $sth = $db->prepare("delete from `tags` where `imageId` = :imageId");
@@ -41,5 +42,16 @@ class Tags {
         $sth->execute();
 
         return $db->lastInsertId();
+    }
+
+    //TODO: это именно та функция select count(Id) as total from 'tags' where tag = :tag;
+    static function getTagsCountByImageId($tag, $imageId) {
+        $db = DB::getPdo();
+        $sth = $db->prepare("SELECT count(Id) as total FROM `tags` WHERE tag=:tag and imageId=:imageId LIMIT 1");
+        $sth->bindValue(':tag', $tag, PDO::PARAM_STR);
+        $sth->bindValue(':imageId', $imageId, PDO::PARAM_INT);
+        $sth->execute();
+        $result = $sth->fetchAll();
+        return $result[0]['total'];
     }
 }

@@ -47,13 +47,18 @@ $('#content').on('click', '.deleteImg', function(event) {
 $('#content').on('click', '.addTagButton', function(event) {
     var imageId = $(event.currentTarget).attr('data-image-id');
     var addTagForm = $(event.currentTarget).parents('.addTagForm');
-    var tagText = $(addTagForm).find('.addTagText').val();
+    var input = $(addTagForm).find('.addTagText');
+    var tagText = $.trim($(input).val());
+    $(input).val("");
+    if (tagText.length == 0){
+        return false;
+    }
     $.post( "tag_add", { tag: tagText, imageId: imageId }, function( response ) {
         var responseJson = JSON.parse(response);
         if (responseJson.result === true) {
             reloadImages();
         } else {
-            alert('Error');
+            alert(responseJson.error || 'Error');
         }
     });
 });

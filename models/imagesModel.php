@@ -11,7 +11,9 @@ class Images {
     }
     static function getImages($offset, $page) {
         $db = DB::getPdo();
-        if (isset($_GET["tag"])) {
+        $findByTags = isset($_GET["tag"]) && strlen(trim($_GET["tag"])) > 0;
+
+        if ($findByTags) {
             $tags = Tags::findTags($_GET["tag"]);
 
             $tags = array_chunk($tags, 6);
@@ -61,6 +63,7 @@ class Images {
         $sth->bindValue(':id', $id, PDO::PARAM_INT);
         return $sth->execute();
     }
+
 
     static function getImagesCount() {
         $db = DB::getPdo();

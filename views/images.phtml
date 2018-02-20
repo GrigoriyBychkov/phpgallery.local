@@ -54,5 +54,11 @@
             <li class="page-item"><a class="page-link" data-page="<?= $current + 1 ?>">Next</a></li>
         <?php } ?>
     </ul>
-    <span>Total: <?=$count?></span>
 </nav>
+<span>Total: <?=$count?></span>
+<form action="/upload" method="post" enctype="multipart/form-data">
+    Select image to upload:
+    <input type="file" name="fileToUpload" id="fileToUpload">
+    <input type="submit" value="Upload" name="submit">
+</form>
+<hr>

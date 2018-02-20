@@ -53,4 +53,11 @@ class Tags {
         $result = $sth->fetchAll();
         return $result[0]['total'];
     }
+    static function getTagsCount() {
+        $db = DB::getPdo();
+        $sth = $db->prepare("SELECT count(Id) as total FROM `tags`");
+        $sth->execute();
+        $result = $sth->fetchAll();
+        return $result[0]['total'];
+    }
 }

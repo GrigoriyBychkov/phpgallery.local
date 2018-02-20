@@ -20,6 +20,7 @@ require('models/db.php');
 require('controllers/tagController.php');
 require('controllers/imageController.php');
 require('views/indexView.php');
+require('controllers/aboutController.php');
 
 if ($paths[1] == 'tag_add') {
     echo TagController::addTagAction();
@@ -36,6 +37,8 @@ if ($paths[1] == 'tag_add') {
 } else if ($paths[1]=='getImages'){
     echo ImageController::getImagesAction();
 
+} else if ($paths[1]=='about'){
+    echo AboutController::aboutAction();
 } else {
     echo ImageController::indexAction();
 }
